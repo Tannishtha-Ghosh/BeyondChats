@@ -1,5 +1,6 @@
 import axios from "axios";
 
+<<<<<<< HEAD
 export async function fetchLatestArticle() {
 const res = await axios.get("http://localhost:8000/api/articles");
 
@@ -18,3 +19,23 @@ return axios.post("http://localhost:8000/api/articles", {
 }
 
 
+=======
+export async function saveArticle(payload) {
+  try {
+    const res = await axios.post(
+      `${process.env.LARAVEL_API_BASE}/articles`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    console.error("❌ Failed to save article:", error.message);
+    throw error;
+  }
+}
+>>>>>>> 01e8489 (Initial commit: BeyondChats full-stack assignment)

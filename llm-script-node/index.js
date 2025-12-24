@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import "dotenv/config";
 import { fetchLatestArticle, publishArticle } from "./api.js";
 import { getMockSearchResults } from "./mockSearch.js";
@@ -43,3 +44,57 @@ await publishArticle({
     console.error("❌ Phase 2 script failed:", err.message);
   }
 })();
+=======
+import dotenv from "dotenv";
+dotenv.config();
+
+
+import { getBlogLinks } from "./crawler.js";
+import { scrapeArticle } from "./scraper.js";
+import { rewriteArticle } from "./llm.js";
+import { saveArticle } from "./api.js";
+
+async function run() {
+  console.log("🚀 Starting BeyondChats LLM pipeline");
+
+  const links = await getBlogLinks();
+
+  if (!links.length) {
+    console.log("❌ no original article found");
+    return;
+  }
+
+  console.log(`🔗 Found ${links.length} articles`);
+
+  for (const url of links.slice(0, 3)) {
+    try {
+      console.log("\n🌐 Processing:", url);
+
+      const content = await scrapeArticle(url);
+
+      const rewritten = await rewriteArticle(
+        content,
+        content.slice(0, 1000),
+        content.slice(1000, 2000)
+      );
+
+      await saveArticle({
+  title: "BeyondChats Blog Rewrite",
+  content: rewritten,
+  type: "generated",
+  references: [url]
+});
+
+
+      console.log("✅ Saved successfully");
+
+    } catch (err) {
+      console.error("❌ Failed:", err.message);
+    }
+  }
+
+  console.log("\n🎉 Pipeline completed");
+}
+
+run();
+>>>>>>> 01e8489 (Initial commit: BeyondChats full-stack assignment)

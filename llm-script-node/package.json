@@ -16,5 +16,8 @@
     "dotenv": "^17.2.3",
     "openai": "^6.15.0"
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 01e8489 (Initial commit: BeyondChats full-stack assignment)
 }
